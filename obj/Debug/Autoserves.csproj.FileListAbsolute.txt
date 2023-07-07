@@ -1,0 +1,8 @@
+D:\CSharp\IUNIOR\DZ\Autoserves\bin\Debug\Autoserves.exe.config
+D:\CSharp\IUNIOR\DZ\Autoserves\bin\Debug\Autoserves.exe
+D:\CSharp\IUNIOR\DZ\Autoserves\bin\Debug\Autoserves.pdb
+D:\CSharp\IUNIOR\DZ\Autoserves\obj\Debug\Autoserves.csproj.AssemblyReference.cache
+D:\CSharp\IUNIOR\DZ\Autoserves\obj\Debug\Autoserves.csproj.SuggestedBindingRedirects.cache
+D:\CSharp\IUNIOR\DZ\Autoserves\obj\Debug\Autoserves.csproj.CoreCompileInputs.cache
+D:\CSharp\IUNIOR\DZ\Autoserves\obj\Debug\Autoserves.exe
+D:\CSharp\IUNIOR\DZ\Autoserves\obj\Debug\Autoserves.pdb
