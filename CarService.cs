@@ -20,7 +20,7 @@ namespace Autoserves
 
         private Stock _stock;
 
-        private int _balance = 10000;
+        private int _balance;
         private int _repairPriceCar = 0;
         private int _flne = 1999;
 
