@@ -14,26 +14,25 @@ namespace Autoserves
         private const string SuspensionDetailName = "Подвеска";
 
         private Stock _stock;
-
-        private Dictionary<string, int> _detailPrice;
+        private List<DetailInfo> _detailInfos;
 
         private int _balance;
         private int _repairPriceCar = 0;
         private int _flne = 1999;
         private int _workPrice = 5000;
 
-        public CarService(Stock stock, int balance = 0, Dictionary<string, int> detailPrice = null)
+        public CarService(Stock stock, int balance = 0, List<DetailInfo> detailInfos = null)
         {
             _balance = balance;
             _stock = stock;
 
-            if(detailPrice == null)
+            if(detailInfos == null)
             {
-                _detailPrice = new Dictionary<string, int>();
-                _detailPrice[EngineDetailName] = 30000;
-                _detailPrice[WheelDetailName] = 2000;
-                _detailPrice[SteeringWheelDetailName] = 3000;
-                _detailPrice[SuspensionDetailName] = 50000;
+                _detailInfos = new List<DetailInfo>();
+                _detailInfos.Add(new DetailInfo(new Detail(EngineDetailName), 30000, 50000));
+                _detailInfos.Add(new DetailInfo(new Detail(WheelDetailName), 2000, 3000));
+                _detailInfos.Add(new DetailInfo(new Detail(SteeringWheelDetailName), 3000, 4000));
+                _detailInfos.Add(new DetailInfo(new Detail(SuspensionDetailName), 50000, 45000));
             }
         }
 
@@ -45,7 +44,7 @@ namespace Autoserves
 
             if (_stock.TryDetailAvailability(brekingDetailName) == true)
             {
-                _repairPriceCar = CalculatePriceRepair(_detailPrice[brekingDetailName], _workPrice);
+                _repairPriceCar = GetRepairPrice(_detailInfos, brekingDetailName);
 
                 Console.WriteLine($"Цена ремонта : {_repairPriceCar}");
 
@@ -85,6 +84,19 @@ namespace Autoserves
         private int CalculatePriceRepair(int detailPrice, int workingPrice)
         {
             return detailPrice + workingPrice;
+        }
+
+        private int GetRepairPrice(List<DetailInfo> detailInfos, string detailName)
+        {
+            foreach (var detail in detailInfos)
+            {
+                if (detail.Name == detailName)
+                {
+                    return CalculatePriceRepair(detail.Price, detail.WorkPrice);
+                }
+            }
+
+            return 0;
         }
 
         private void TakePayment(int price)
