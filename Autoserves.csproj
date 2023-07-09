@@ -47,7 +47,6 @@
     <Compile Include="CarService.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Detail.cs" />
-    <Compile Include="Price.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stock.cs" />

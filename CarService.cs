@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Autoserves
 {
@@ -7,19 +8,33 @@ namespace Autoserves
         private const string RepairText = "Деталь заменена";
         private const string NoRepairText = "Деталь не заменена заменена";
 
+        private const string EngineDetailName = "Двигатель";
+        private const string WheelDetailName = "Колесо";
+        private const string SteeringWheelDetailName = "Руль";
+        private const string SuspensionDetailName = "Подвеска";
+
         private Stock _stock;
 
-        private Price _workPrice = new WorkPrice();
-        private Price _detailPrice = new DetailPrice();
+        private Dictionary<string, int> _detailPrice;
 
         private int _balance;
         private int _repairPriceCar = 0;
         private int _flne = 1999;
+        private int _workPrice = 5000;
 
-        public CarService(Stock stock, int balance = 0)
+        public CarService(Stock stock, int balance = 0, Dictionary<string, int> detailPrice = null)
         {
             _balance = balance;
             _stock = stock;
+
+            if(detailPrice == null)
+            {
+                _detailPrice = new Dictionary<string, int>();
+                _detailPrice[EngineDetailName] = 30000;
+                _detailPrice[WheelDetailName] = 2000;
+                _detailPrice[SteeringWheelDetailName] = 3000;
+                _detailPrice[SuspensionDetailName] = 50000;
+            }
         }
 
         public void DetectBreaking(ref Car car)
@@ -30,7 +45,7 @@ namespace Autoserves
 
             if (_stock.TryDetailAvailability(brekingDetailName) == true)
             {
-                _repairPriceCar = CalculatePriceRepair(_detailPrice.GetPrice(brekingDetailName), _workPrice.GetPrice(brekingDetailName));
+                _repairPriceCar = CalculatePriceRepair(_detailPrice[brekingDetailName], _workPrice);
 
                 Console.WriteLine($"Цена ремонта : {_repairPriceCar}");
 
