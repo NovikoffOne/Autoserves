@@ -9,15 +9,13 @@ namespace Autoserves
 {
     class Detail
     {
-        public string Name { get; private set; }
-        //public int Price { get; private set; }
-        public string State { get; private set; }
-
         public Detail(string name, string state="New")
         {
             Name = name;
-            //Price = price;
             State = state;
         }
+
+        public string Name { get; private set; }
+        public string State { get; private set; }
     }
 }

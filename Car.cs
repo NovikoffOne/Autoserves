@@ -11,18 +11,18 @@ namespace Autoserves
         private const string BaseBrand = "brand";
         private const string BaseModel = "model";
 
-        public string Brand { get; private set; }
-        
-        public string Model { get; private set; }
-
-        public Detail BreakingDetail { get; private set; }
-
         public Car(Detail breaking, string brand = BaseBrand, string model = BaseModel)
         {
             BreakingDetail = breaking;
             Brand = brand;
             Model = model;
         }
+
+        public Detail BreakingDetail { get; private set; }
+
+        public string Brand { get; private set; }
+
+        public string Model { get; private set; }
 
         public bool TryRepair(Detail detail)
         {

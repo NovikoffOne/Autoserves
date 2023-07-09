@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Autoserves
 {
     class CarService
     {
-        #region ConstString
         private const string RepairText = "Деталь заменена";
         private const string NoRepairText = "Деталь не заменена заменена";
 
-        private const string EngineDetailName = "Двигатель";
-        private const string WheelDetailName = "Колесо";
-        private const string SteeringWheelDetailName = "Руль";
-        private const string SuspensionDetailName = "Подвеска";
-        #endregion
-
-        private Dictionary<string, int> _priceListWorking  = new Dictionary<string, int>();
-        private Dictionary<string, int> _priceListDeteil  = new Dictionary<string, int>();
-
         private Stock _stock;
+
+        private Price _workPrice = new WorkPrice();
+        private Price _detailPrice = new DetailPrice();
 
         private int _balance;
         private int _repairPriceCar = 0;
@@ -28,43 +20,31 @@ namespace Autoserves
         {
             _balance = balance;
             _stock = stock;
-
-            _priceListDeteil[EngineDetailName] = 50000;
-            _priceListDeteil[WheelDetailName] = 10000;
-            _priceListDeteil[SteeringWheelDetailName] = 8000;
-            _priceListDeteil[SuspensionDetailName] = 80000;
-
-            _priceListWorking[EngineDetailName] = 30000;
-            _priceListWorking[WheelDetailName] = 2000;
-            _priceListWorking[SteeringWheelDetailName] = 3000;
-            _priceListWorking[SuspensionDetailName] = 50000;
         }
 
-        public Car DetectBreaking(Car car)
+        public void DetectBreaking(ref Car car)
         {
             string brekingDetailName = car.BreakingDetail.Name;
 
             Console.WriteLine($"{brekingDetailName} - неисправен.");
 
-            if (_stock.CheckDetailAvailability(brekingDetailName) == true)
+            if (_stock.TryDetailAvailability(brekingDetailName) == true)
             {
-                _repairPriceCar = CalculatePriceRepair(_priceListDeteil[brekingDetailName], _priceListWorking[brekingDetailName]);
+                _repairPriceCar = CalculatePriceRepair(_detailPrice.GetPrice(brekingDetailName), _workPrice.GetPrice(brekingDetailName));
 
                 Console.WriteLine($"Цена ремонта : {_repairPriceCar}");
 
-                return car;
+                ReplacePart(car);
             }
             else
             {
                 Console.WriteLine("Мы не сможем починить ваш автомобиль");
 
                 Flne();
-
-                return null;
             }
         }
 
-        public void ReplacePart(Car car)
+        private void ReplacePart(Car car)
         {
             Detail newDetail = _stock.PickDetail(car.BreakingDetail.Name);
 
@@ -91,7 +71,6 @@ namespace Autoserves
         {
             return detailPrice + workingPrice;
         }
-
 
         private void TakePayment(int price)
         {

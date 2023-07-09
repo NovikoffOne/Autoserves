@@ -1,46 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.SymbolStore;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace Autoserves
 {
     class Stock
     {
-        private Dictionary<Detail, int> _details = new Dictionary<Detail, int>();
+        private List<Cell> _cells;
 
-        public Stock(Dictionary<Detail, int> details)
+        public Stock(List<Cell> cells = null)
         {
-            _details = details;
-        }
-
-        public bool CheckDetailAvailability(string nameDetail)
-        {
-            Detail detail = GetDetail(nameDetail);
-
-            if (detail != null && _details[detail] > 0)
-                return true;
+            if (cells != null)
+                _cells = cells;
             else
-                return false;
+                _cells = new List<Cell>();
         }
 
-        public Detail PickDetail(string detailName)
+        public bool TryDetailAvailability(string name)
         {
-            Detail detail = GetDetail(detailName);
+            Cell cell = FindDetail(name);
 
-            _details[detail] -= 1;
+            if (cell != null && cell.CountDetail > 0)
+                return true;
 
-            return detail;
+            return false;
         }
 
-        private Detail GetDetail(string nameDetail)
+        public Detail PickDetail(string name, int count = 1)
         {
-            foreach (var detail in _details)
+            return FindDetail(name).GetDetail(count);
+        }
+
+        private Cell FindDetail(string name)
+        {
+            foreach(var cell in _cells)
             {
-                if (detail.Key.Name == nameDetail && detail.Value > 0)
-                {
-                    return detail.Key;
-                }
+                if (cell.Detail.Name == name)
+                    return cell;
             }
 
             return null;
