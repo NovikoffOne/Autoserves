@@ -16,8 +16,11 @@ namespace Autoserves
         }
 
         public Detail Detail { get; private set; }
+
         public int Price { get; private set; }
+        
         public int WorkPrice { get; private set; }
+        
         public string Name => Detail.Name;
     }
 }

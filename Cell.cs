@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Autoserves
@@ -18,11 +19,11 @@ namespace Autoserves
 
         public int CountDetail { get; private set; }
 
-        public Detail GetDetail(int count)
+        public Detail GiveDetail()
         {
-            if ((CountDetail -= count) >= 0)
+            if (CountDetail > 0)
             {
-                CountDetail -= count;
+                CountDetail--;
 
                 return Detail;
             }

@@ -19,7 +19,6 @@ namespace Autoserves
         private int _balance;
         private int _repairPriceCar = 0;
         private int _flne = 1999;
-        private int _workPrice = 5000;
 
         public CarService(Stock stock, int balance = 0, List<DetailInfo> detailInfos = null)
         {
@@ -36,13 +35,13 @@ namespace Autoserves
             }
         }
 
-        public void DetectBreaking(ref Car car)
+        public void DetectBreaking(Car car)
         {
-            string brekingDetailName = car.BreakingDetail.Name;
+            string brekingDetailName = car.FindBreakingDetail().Name;
 
             Console.WriteLine($"{brekingDetailName} - неисправен.");
 
-            if (_stock.TryDetailAvailability(brekingDetailName) == true)
+            if (_stock.ContainseDetail(brekingDetailName) == true)
             {
                 _repairPriceCar = GetRepairPrice(_detailInfos, brekingDetailName);
 
@@ -54,13 +53,13 @@ namespace Autoserves
             {
                 Console.WriteLine("Мы не сможем починить ваш автомобиль");
 
-                Flne();
+                PayFlne();
             }
         }
 
         private void ReplacePart(Car car)
         {
-            Detail newDetail = _stock.PickDetail(car.BreakingDetail.Name);
+            Detail newDetail = _stock.PickDetail(car.FindBreakingDetail().Name);
 
             if (car.TryRepair(newDetail))
             {
@@ -70,11 +69,11 @@ namespace Autoserves
             else
             {
                 Console.WriteLine(NoRepairText);
-                Flne();
+                PayFlne();
             }
         }
 
-        private void Flne()
+        private void PayFlne()
         {
             _balance -= _flne;
 

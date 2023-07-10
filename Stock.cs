@@ -16,19 +16,16 @@ namespace Autoserves
                 _cells = new List<Cell>();
         }
 
-        public bool TryDetailAvailability(string name)
+        public bool ContainseDetail(string name)
         {
             Cell cell = FindDetail(name);
 
-            if (cell != null && cell.CountDetail > 0)
-                return true;
-
-            return false;
+            return cell != null && cell.CountDetail > 0;
         }
 
-        public Detail PickDetail(string name, int count = 1)
+        public Detail PickDetail(string name)
         {
-            return FindDetail(name).GetDetail(count);
+            return FindDetail(name).GiveDetail();
         }
 
         private Cell FindDetail(string name)

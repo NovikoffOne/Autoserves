@@ -16,6 +16,7 @@ namespace Autoserves
         }
 
         public string Name { get; private set; }
+
         public string State { get; private set; }
     }
 }

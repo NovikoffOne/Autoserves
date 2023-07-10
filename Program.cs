@@ -28,7 +28,7 @@ namespace Autoserves
             {
                 Car currentCar = cars.Dequeue();
 
-                carService.DetectBreaking(ref currentCar);
+                carService.DetectBreaking(currentCar);
             }
         }
     }

@@ -11,9 +11,11 @@ namespace Autoserves
         private const string BaseBrand = "brand";
         private const string BaseModel = "model";
 
+        private List<Detail> _details = new List<Detail>();
+
         public Car(Detail breaking, string brand = BaseBrand, string model = BaseModel)
         {
-            BreakingDetail = breaking;
+            _details.Add(breaking);
             Brand = brand;
             Model = model;
         }
@@ -26,9 +28,12 @@ namespace Autoserves
 
         public bool TryRepair(Detail detail)
         {
-            if(detail != null)
+            Detail brackingDetail = FindBreakingDetail();
+
+            if (detail != null && brackingDetail.Name == detail.Name)
             {
-                BreakingDetail = detail;
+                _details.Remove(brackingDetail);
+                _details.Add(detail);
 
                 return true;
             }
@@ -36,6 +41,17 @@ namespace Autoserves
             {
                 return false;
             }
+        }
+
+        public Detail FindBreakingDetail()
+        {
+            foreach (var detail in _details)
+            {
+                if (detail.State == "Old")
+                    return detail;
+            }
+
+            return null;
         }
     }
 }
